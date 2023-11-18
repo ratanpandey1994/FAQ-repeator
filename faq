@@ -1,0 +1,116 @@
+<div class="faqSection">
+	        <?php if( have_rows('faq_content') ): ?>
+              <div class="accordion">
+                  <?php $i=1; while( have_rows('faq_content') ): the_row(); ?>
+                  <?php if($i==1){ ?>
+                   <div class="accordion-section box">
+                        <h3><a class="accordion-section-title active" href="#accordion-<?php echo $i; ?>"><?php the_sub_field('heading'); ?> <span class="icon"></span> </a></h3>
+                        <div id="accordion-<?php echo $i; ?>" class="accordion-section-content" style="display:block">
+                            <?php the_sub_field('content'); ?>
+                        </div>
+                   </div>
+                  <?php } else { ?>
+                  <div class="accordion-section box">
+                        <h3><a class="accordion-section-title" href="#accordion-<?php echo $i; ?>"><?php the_sub_field('heading'); ?> <span class="icon"></span></a></h3>
+                        <div id="accordion-<?php echo $i; ?>" class="accordion-section-content">
+                            <?php the_sub_field('content'); ?>
+                        </div>
+                   </div>
+                  <?php } $i++; endwhile; ?>
+              </div>
+             <?php endif; ?>
+	    </div>
+
+//
+Style
+
+.accordion-section-content {
+    display: none;
+}
+.accordion-section-content {
+    display: none;
+    padding-bottom: 45px;
+}
+
+.accordion-section.box {
+    border-bottom: 1px solid #cfd0d5;
+}
+
+.accordion-section.box h3 a {
+    display: block;
+    padding: 25px 0;
+    text-decoration: none;
+    font-size: 24px;
+    position: relative;
+}
+
+.accordion-section-content {
+    padding-bottom: 45px;
+}
+
+.accordion-section-content p {
+    line-height: 31px;
+    color: #000000;
+    font-weight: 500;
+    font-size: 17px;
+}
+
+.faqSection .accordion a .icon {
+    position: absolute;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.faqSection .accordion a .icon::before {
+    display: block;
+    position: absolute;
+    content: "";
+    top: 11px;
+    left: 0;
+    width: 25px;
+    height: 3px;
+    background: #797979;
+}
+.faqSection  .accordion a .icon::after {
+    display: block;
+    position: absolute;
+    content: "";
+    top: 2px;
+    left: 11px;
+    width: 3px;
+    height: 23px;
+    background: #797979;
+}
+
+.faqSection .accordion  .active .icon::after {
+    width: 0;
+}
+
+//JS
+jQuery(document).ready(function() {
+    function close_accordion_section() {
+        jQuery('.accordion .accordion-section-title').removeClass('active');
+        jQuery('.accordion .accordion-section-content').slideUp(300).removeClass('open');
+    }
+ 
+    jQuery('.accordion-section-title').click(function(e) {
+        // Grab current anchor value
+        var currentAttrValue = jQuery(this).attr('href');
+ 
+        if(jQuery(e.target).is('.active')) {
+            close_accordion_section();
+        }else {
+            close_accordion_section();
+ 
+            // Add active class to section title
+            jQuery(this).addClass('active');
+            // Open up the hidden content panel
+            jQuery('.accordion ' + currentAttrValue).slideDown(300).addClass('open'); 
+        }
+ 
+        e.preventDefault();
+    });
+});
